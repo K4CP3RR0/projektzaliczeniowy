@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item android:id="@+id/order_list"
+            android:title="Lista zamówień"/>
+        <item android:id="@+id/send_message"
+            android:title="Wyślij SMS"/>
+        <item android:id="@+id/share"
+            android:title="Udostępnij"/>
+        <item android:id="@+id/set_settings"
+            android:title="Zapisz ustawienia"/>
+        <item android:id="@+id/about"
+            android:title="O programie"/>
+    </group>
+</menu>
