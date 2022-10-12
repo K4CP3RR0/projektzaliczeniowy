@@ -1,38 +1,54 @@
 package com.example.projektzaliczeniowyv1.database;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
-
-import androidx.annotation.Nullable;
-
-import com.example.projektzaliczeniowyv1.MainActivity;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "Items.db";
+    public static final String DATABASE_NAME = "ItemsShop.db";
     public DbHelper(Context context){
+
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
     }
 
     public class ItemEntry implements BaseColumns {
-        public static final String TABLE_NAME = "entry";
-        public static final String COLUMN_NAME_TITLE = "title";
-        public static final String COLUMN_NAME_SUBTITLE = "subtitle";
+        public static final String TABLE_NAME = "user_order";
+        //        public static final String COLUMN_NAME_TITLE = "title";
+//        public static final String COLUMN_NAME_SUBTITLE = "subtitle";
+        public static final String COLUMN_NAME_PHONE = "phone";
+        public static final String COLUMN_NAME_PHONE_PHOTO = "phone_photo";
+        public static final String COLUMN_NAME_PHONE_PRICE = "phone_price";
+        public static final String COLUMN_NAME_AMOUNT = "amount";
+        public static final String COLUMN_NAME_HEADPHONES = "headphones";
+        public static final String COLUMN_NAME_HEADPHONES_PHOTO = "headphones_photo";
+        public static final String COLUMN_NAME_HEADPHONES_PRICE = "headphones_price";
+        public static final String COLUMN_NAME_WATCH = "watch";
+        public static final String COLUMN_NAME_WATCH_PHOTO = "watch_photo";
+        public static final String COLUMN_NAME_WATCH_PRICE = "watch_price";
     }
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE "
                     + ItemEntry.TABLE_NAME + " ("
                     + ItemEntry._ID + " INTEGER PRIMARY KEY,"
-                    + ItemEntry.COLUMN_NAME_TITLE + " TEXT,"
-                    + ItemEntry.COLUMN_NAME_SUBTITLE + " TEXT )";
+                    + ItemEntry.COLUMN_NAME_PHONE + " TEXT,"
+                    + ItemEntry.COLUMN_NAME_PHONE_PHOTO + " INT, "
+                    + ItemEntry.COLUMN_NAME_PHONE_PRICE + " INT, "
+                    + ItemEntry.COLUMN_NAME_AMOUNT + " INT, "
+                    + ItemEntry.COLUMN_NAME_HEADPHONES + " TEXT, "
+                    + ItemEntry.COLUMN_NAME_HEADPHONES_PHOTO + " INT, "
+                    + ItemEntry.COLUMN_NAME_HEADPHONES_PRICE + " INT, "
+                    + ItemEntry.COLUMN_NAME_WATCH + " TEXT, "
+                    + ItemEntry.COLUMN_NAME_WATCH_PHOTO + " INT, "
+                    + ItemEntry.COLUMN_NAME_WATCH_PRICE + " INT )";
+
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS "
@@ -53,10 +69,82 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         super.onDowngrade(db, oldVersion, newVersion);
     }
+    public List readData(String columnName){
+        SQLiteDatabase db_read = getReadableDatabase();
 
+        String[] projection = {
+                BaseColumns._ID,
+                ItemEntry.COLUMN_NAME_PHONE,
+                ItemEntry.COLUMN_NAME_PHONE_PHOTO,
+                ItemEntry.COLUMN_NAME_PHONE_PRICE,
+                ItemEntry.COLUMN_NAME_AMOUNT,
+                ItemEntry.COLUMN_NAME_HEADPHONES,
+                ItemEntry.COLUMN_NAME_HEADPHONES_PHOTO,
+                ItemEntry.COLUMN_NAME_HEADPHONES_PRICE,
+                ItemEntry.COLUMN_NAME_WATCH,
+                ItemEntry.COLUMN_NAME_WATCH_PHOTO,
+                ItemEntry.COLUMN_NAME_WATCH_PRICE,
+        };
 
+        String sortOrder =
+                ItemEntry.COLUMN_NAME_PHONE + " DESC";
 
+        Cursor cursor = db_read.query(
+                ItemEntry.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                sortOrder
+        );
 
+        List result = new ArrayList<>();
+        while(cursor.moveToNext()){
+            if(columnName == BaseColumns._ID){
+                long item = cursor.getLong(
+                        cursor.getColumnIndexOrThrow(ItemEntry._ID)
+                );
+                result.add(item);
+            } else if(columnName == ItemEntry.COLUMN_NAME_PHONE_PHOTO
+                    || columnName == ItemEntry.COLUMN_NAME_PHONE_PRICE
+                    || columnName == ItemEntry.COLUMN_NAME_AMOUNT
+                    || columnName == ItemEntry.COLUMN_NAME_HEADPHONES_PHOTO
+                    || columnName == ItemEntry.COLUMN_NAME_HEADPHONES_PRICE
+                    || columnName == ItemEntry.COLUMN_NAME_WATCH_PHOTO
+                    || columnName == ItemEntry.COLUMN_NAME_WATCH_PRICE){
+                int item = cursor.getInt(
+                        cursor.getColumnIndexOrThrow(columnName)
+                );
+                result.add(item);
+            }
+            else{
+                String item = cursor.getString(
+                        cursor.getColumnIndexOrThrow(columnName)
+                );
+                result.add(item);
+            }
+        }
+        cursor.close();
+        Log.v("TAG","--------------------------------"+result);
+        return result;
+    }
+    public int deleteData(String like){
+        SQLiteDatabase db_write = getWritableDatabase();
+        String selection = ItemEntry.COLUMN_NAME_PHONE + " LIKE ?";
+        String[] selectionArgs = {like};
+        return db_write.delete(ItemEntry.TABLE_NAME,selection,selectionArgs);
+    }
 
-
+    public void dropTable(String table){
+        SQLiteDatabase db_write = getWritableDatabase();
+        db_write.execSQL("DROP TABLE IF EXISTS "+table);
+    }
 }
+
+
+
+
+
+
+
