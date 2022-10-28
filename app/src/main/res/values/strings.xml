@@ -2,4 +2,9 @@
     <string name="app_name">Projekt Zaliczeniowy (v1)</string>
     <string name="dialog_name">O programie</string>
     <string name="dialog_message">Stworzone przez Kacpra Cichorskiego 4pp</string>
+    <string name="subject">Zamówienie</string>
+    <string name="shortcut_short_label">Short</string>
+    <string name="shortcut_long_label">Long label</string>
+    <string name="shortcut_disabled_message">Disabled</string>
+    <string name="sendsms">Wyślij SMS</string>
 </resources>

@@ -1,13 +1,23 @@
 package com.example.projektzaliczeniowyv1;
 
+import static android.Manifest.*;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.ContentValues;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -34,28 +44,12 @@ public class MainActivity extends AppCompatActivity {
     private List images;
     private List prices;
 
-
-    private static final String TAGsms = "SMS1111";
-    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 1;
-    private static final int MY_PERMISSIONS_REQUEST_RECEIVE_SMS = 2;
-    SmsManager smsManager;
-    String destinationAddress = "";
-    String scAddress = null;
-    String text="";
-    PendingIntent sentIntent = null;
-    PendingIntent deliveryIntent;
-    long messageId = 0;
-    EditText phoneNumber;
-    EditText smsMessage;
-    Button sendSms;
-
-
     private static final String TAG="1111";
     ListView listView;
     Button addItem;
     HashMap<String, Object> hashMap;
     ArrayList<HashMap<String, Object>> itemList;
-
+    SQLiteDatabase db_write;
 
 
     @Override
@@ -63,10 +57,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dbHelper = new DbHelper(getApplicationContext());
-        SQLiteDatabase db_write = dbHelper.getWritableDatabase();
+        db_write = dbHelper.getWritableDatabase();
+        try{
 
-/*
-        db_write.execSQL("CREATE TABLE "
+        } catch (SQLiteException e){
+            if (e.getMessage().contains("no such table")){
+                Log.e(TAG, "Creating table " + DbHelper.ItemEntry.TABLE_NAME + "because it doesn't exist!" );
+                db_write.execSQL("CREATE TABLE "
                 + DbHelper.ItemEntry.TABLE_NAME + " ("
                 + DbHelper.ItemEntry._ID + " INTEGER PRIMARY KEY,"
                 + DbHelper.ItemEntry.COLUMN_NAME_PHONE + " TEXT,"
@@ -78,21 +75,51 @@ public class MainActivity extends AppCompatActivity {
                 + DbHelper.ItemEntry.COLUMN_NAME_HEADPHONES_PRICE + " INT, "
                 + DbHelper.ItemEntry.COLUMN_NAME_WATCH + " TEXT, "
                 + DbHelper.ItemEntry.COLUMN_NAME_WATCH_PHOTO + " INT, "
-                + DbHelper.ItemEntry.COLUMN_NAME_WATCH_PRICE + " INT )");*/
+                + DbHelper.ItemEntry.COLUMN_NAME_WATCH_PRICE + " INT )");
 
-        /*ContentValues values1 = new ContentValues();
+            }
+        }
 
-        values1.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE,"Apple iPhone 14 Pro 512GB Space Black");
+     /*   ContentValues values1 = new ContentValues();
+        values1.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE, "Apple iPhone 14 Pro 512GB Space Black");
         values1.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE_PHOTO, R.drawable.iphone1);
-        values1.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE_PRICE,8499);
-        values1.put(DbHelper.ItemEntry.COLUMN_NAME_HEADPHONES,"Apple AirPods Pro (2nd gen)");
-        values1.put(DbHelper.ItemEntry.COLUMN_NAME_HEADPHONES_PHOTO,R.drawable.airpods1);
-        values1.put(DbHelper.ItemEntry.COLUMN_NAME_HEADPHONES_PRICE,1449);
-        values1.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH,"Apple Watch Series 8 Black 41mm");
-        values1.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH_PHOTO,R.drawable.watch1);
-        values1.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH_PRICE,2399);
+        values1.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE_PRICE, 8499);
+        values1.put(DbHelper.ItemEntry.COLUMN_NAME_HEADPHONES, "Apple AirPods Pro (2nd gen)");
+        values1.put(DbHelper.ItemEntry.COLUMN_NAME_HEADPHONES_PHOTO, R.drawable.airpods1);
+        values1.put(DbHelper.ItemEntry.COLUMN_NAME_HEADPHONES_PRICE, 1449);
+        values1.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH, "Apple Watch Series 8 Black 41mm");
+        values1.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH_PHOTO, R.drawable.watch1);
+        values1.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH_PRICE, 2399);
+        long newRowId = db_write.insert(DbHelper.ItemEntry.TABLE_NAME, null, values1);
 
-        long newRowId = db_write.insert(DbHelper.ItemEntry.TABLE_NAME,null,values1);*/
+        ContentValues values2 = new ContentValues();
+        values2.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE, "Apple iPhone 13 256 GB – Blue");
+        values2.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE_PHOTO, R.drawable.iphone2);
+        values2.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE_PRICE, 5199);
+        values2.put(DbHelper.ItemEntry.COLUMN_NAME_HEADPHONES, "AirPods (3rd generation) with MagSafe Charging Case");
+        values2.put(DbHelper.ItemEntry.COLUMN_NAME_HEADPHONES_PHOTO, R.drawable.airpods2);
+        values2.put(DbHelper.ItemEntry.COLUMN_NAME_HEADPHONES_PRICE, 1099);
+        values2.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH, "Apple Watch SE Midnight Aluminium Case with Sport Loop 40mm");
+        values2.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH_PHOTO, R.drawable.watch2);
+        values2.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH_PRICE, 1499);
+        long newRowId2 = db_write.insert(DbHelper.ItemEntry.TABLE_NAME, null, values2);
+
+        ContentValues values3 = new ContentValues();
+        values3.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE, "Apple iPhone 12 256GB Black");
+        values3.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE_PHOTO, R.drawable.iphone3);
+        values3.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE_PRICE, 8499);
+        values3.put(DbHelper.ItemEntry.COLUMN_NAME_HEADPHONES, "Apple AirPods Max Space Gray");
+        values3.put(DbHelper.ItemEntry.COLUMN_NAME_HEADPHONES_PHOTO, R.drawable.airpods3);
+        values3.put(DbHelper.ItemEntry.COLUMN_NAME_HEADPHONES_PRICE, 3099);
+        values3.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH, "Apple Watch Ultra Titanium Case with Starlight Alpine Loop 49mm");
+        values3.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH_PHOTO, R.drawable.watch3);
+        values3.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH_PRICE, 4799);
+        long newRowId3 = db_write.insert(DbHelper.ItemEntry.TABLE_NAME, null, values3);*/
+
+
+
+
+
         titles = dbHelper.readData(DbHelper.ItemEntry.COLUMN_NAME_PHONE) ;
         images = dbHelper.readData(DbHelper.ItemEntry.COLUMN_NAME_PHONE_PHOTO);
         prices = dbHelper.readData(DbHelper.ItemEntry.COLUMN_NAME_PHONE_PRICE);
@@ -128,6 +155,9 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getApplicationContext(),BuyPage.class);
+                startActivity(intent);
+                
                 Toast.makeText(getApplicationContext(), (CharSequence) itemList.get(i),Toast.LENGTH_SHORT).show();
             }
         });
@@ -135,7 +165,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    private void addProducts(){
 
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -151,7 +183,9 @@ public class MainActivity extends AppCompatActivity {
               orderList();
               break;
           case R.id.send_message:
-              sendMessage();
+             Intent intent = new Intent(this,SendMessage.class);
+             startActivity(intent);
+              //sendMail();
             break;
           case R.id.share:
               shareList();
@@ -174,32 +208,25 @@ public class MainActivity extends AppCompatActivity {
     private void shareList() {
     }
 
-    private void sendMessage() {
-        if (checkPermission(Manifest.permission.SEND_SMS)){
-            destinationAddress = phoneNumber.getText().toString();
-            text = smsMessage.getText().toString();
-            if(!destinationAddress.equals("")&& !text.equals("")){
-                smsManager = SmsManager.getDefault();
 
-                smsManager.sendTextMessage(
-                        destinationAddress,
-                        null,
-                        text,
-                        null,
-                        null
-                );
-                Toast.makeText(MainActivity.this,"SMS send", Toast.LENGTH_SHORT).show();
-                Log.v(TAGsms,"Sms send");
 
-            }
-            else{
-                Toast.makeText(MainActivity.this,"Permission denied", Toast.LENGTH_SHORT).show();
-                Log.v(TAGsms,"Permission denied");
-            }
-        }
+    public void sendMail(){
+        String email = "kacper.cichorski@gmail.com";
+        String subject = "subject";
+        String body = "body";
+
+        Intent mailIntent = new Intent(Intent.ACTION_SEND);
+
+        mailIntent.putExtra(Intent.EXTRA_EMAIL,new String[]{email});
+        mailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject));
+        mailIntent.putExtra(Intent.EXTRA_TEXT,body);
+        mailIntent.setType("message/rfc822");
+        startActivity(Intent.createChooser(mailIntent, "Choose an Email client :"));
+
     }
 
-    private boolean checkPermission(String sendSms) {return true;}
+
+
 
 
     private void orderList() {
@@ -209,7 +236,12 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle(R.string.dialog_name);
         alert.setTitle(R.string.dialog_message);
-        alert.create().show();
+        Dialog d  = alert.setView(new View(this)).create();
+//        alert.create().show();
+        int width=(int) (getResources().getDisplayMetrics().widthPixels*0.70);
+        int height=(int) (getResources().getDisplayMetrics().heightPixels*0.20);
+        d.show();
+        d.getWindow().setLayout(width,height);
    }
     @Override
     protected void onDestroy() {
