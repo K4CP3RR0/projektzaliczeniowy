@@ -7,35 +7,44 @@
     tools:context=".messageSystem.SendMessage">
 
     <TextView
-        android:id="@+id/textSMS"
+        android:id="@+id/textEMAIL"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="@string/sendsms"
+        android:text="@string/sendemail"
         android:textSize="30dp" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="50dp"
-        android:layout_below="@+id/textSMS"
-        android:id="@+id/phoneNumber"
+        android:layout_below="@+id/textEMAIL"
+        android:hint="Adres E-mail"
+        android:id="@+id/emailAddress"
         />
 
     <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="50dp"
-        android:layout_below="@id/phoneNumber"
-        android:id="@+id/destinationAddress"
+        android:layout_below="@id/emailAddress"
+        android:hint="Temat "
+        android:id="@+id/emailTitle"
         />
-
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="50dp"
+        android:layout_below="@id/emailTitle"
+        android:hint="Treść"
+        android:id="@+id/emailBody"
+        />
     <Button
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@id/destinationAddress"
+        android:layout_below="@id/emailBody"
         android:layout_marginTop="30dp"
-        android:text="@string/sendsms"
-        android:id="@+id/buttonSMS"
+        android:text="@string/sendemail"
+        android:id="@+id/buttonEMAIL"
 
         />
 

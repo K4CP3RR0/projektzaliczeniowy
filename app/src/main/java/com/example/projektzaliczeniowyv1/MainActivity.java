@@ -1,38 +1,27 @@
 package com.example.projektzaliczeniowyv1;
 
-import static android.Manifest.*;
-
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
 import android.app.Dialog;
-import android.app.PendingIntent;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.net.Uri;
 import android.os.Bundle;
-import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.example.projektzaliczeniowyv1.database.DbHelper;
+import com.example.projektzaliczeniowyv1.messageSystem.SendEmail;
+import com.example.projektzaliczeniowyv1.messageSystem.SendMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG="1111";
     ListView listView;
-    Button addItem;
     HashMap<String, Object> hashMap;
     ArrayList<HashMap<String, Object>> itemList;
     SQLiteDatabase db_write;
@@ -183,10 +171,15 @@ public class MainActivity extends AppCompatActivity {
               orderList();
               break;
           case R.id.send_message:
-             Intent intent = new Intent(this,SendMessage.class);
-             startActivity(intent);
-              //sendMail();
+             Intent intentSMS = new Intent(this, SendMessage.class);
+             startActivity(intentSMS);
+
             break;
+          case R.id.send_email:
+              Intent intentEmail = new Intent(this, SendEmail.class);
+              startActivity(intentEmail);
+
+              break;
           case R.id.share:
               shareList();
               break;
@@ -204,31 +197,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void saveSettings() {
     }
-
     private void shareList() {
     }
-
-
-
-    public void sendMail(){
-        String email = "kacper.cichorski@gmail.com";
-        String subject = "subject";
-        String body = "body";
-
-        Intent mailIntent = new Intent(Intent.ACTION_SEND);
-
-        mailIntent.putExtra(Intent.EXTRA_EMAIL,new String[]{email});
-        mailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject));
-        mailIntent.putExtra(Intent.EXTRA_TEXT,body);
-        mailIntent.setType("message/rfc822");
-        startActivity(Intent.createChooser(mailIntent, "Choose an Email client :"));
-
-    }
-
-
-
-
-
     private void orderList() {
     }
 
@@ -237,7 +207,6 @@ public class MainActivity extends AppCompatActivity {
         alert.setTitle(R.string.dialog_name);
         alert.setTitle(R.string.dialog_message);
         Dialog d  = alert.setView(new View(this)).create();
-//        alert.create().show();
         int width=(int) (getResources().getDisplayMetrics().widthPixels*0.70);
         int height=(int) (getResources().getDisplayMetrics().heightPixels*0.20);
         d.show();

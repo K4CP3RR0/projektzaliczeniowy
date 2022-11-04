@@ -1,4 +1,4 @@
-package com.example.projektzaliczeniowyv1;
+package com.example.projektzaliczeniowyv1.messageSystem;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -14,9 +14,9 @@ import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.projektzaliczeniowyv1.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class SendMessage extends AppCompatActivity {

@@ -7,4 +7,5 @@
     <string name="shortcut_long_label">Long label</string>
     <string name="shortcut_disabled_message">Disabled</string>
     <string name="sendsms">Wyślij SMS</string>
+    <string name="sendemail">Wyślij e-mail</string>
 </resources>

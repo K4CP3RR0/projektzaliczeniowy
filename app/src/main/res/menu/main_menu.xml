@@ -5,6 +5,8 @@
             android:title="Lista zamówień"/>
         <item android:id="@+id/send_message"
             android:title="Wyślij SMS"/>
+        <item android:id="@+id/send_email"
+            android:title="Wyślij E-mail"/>
         <item android:id="@+id/share"
             android:title="Udostępnij"/>
         <item android:id="@+id/set_settings"
