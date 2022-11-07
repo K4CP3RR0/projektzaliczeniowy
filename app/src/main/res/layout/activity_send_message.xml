@@ -18,6 +18,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="50dp"
         android:layout_below="@+id/textSMS"
+        android:hint="@string/phoneNumber"
         android:id="@+id/phoneNumber"
         />
 
@@ -26,6 +27,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="50dp"
         android:layout_below="@id/phoneNumber"
+        android:hint="@string/smsBody"
         android:id="@+id/destinationAddress"
         />
 

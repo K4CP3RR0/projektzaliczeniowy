@@ -5,9 +5,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -32,13 +38,14 @@ public class MainActivity extends AppCompatActivity {
     private List titles;
     private List images;
     private List prices;
+    SQLiteDatabase db;
 
     private static final String TAG="1111";
     ListView listView;
     HashMap<String, Object> hashMap;
     ArrayList<HashMap<String, Object>> itemList;
     SQLiteDatabase db_write;
-
+    ShortcutInfo shortcut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +72,12 @@ public class MainActivity extends AppCompatActivity {
                 + DbHelper.ItemEntry.COLUMN_NAME_WATCH_PHOTO + " INT, "
                 + DbHelper.ItemEntry.COLUMN_NAME_WATCH_PRICE + " INT )");
 
+
+
+
             }
         }
-
-     /*   ContentValues values1 = new ContentValues();
+       /* ContentValues values1 = new ContentValues();
         values1.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE, "Apple iPhone 14 Pro 512GB Space Black");
         values1.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE_PHOTO, R.drawable.iphone1);
         values1.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE_PRICE, 8499);
@@ -102,7 +111,9 @@ public class MainActivity extends AppCompatActivity {
         values3.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH, "Apple Watch Ultra Titanium Case with Starlight Alpine Loop 49mm");
         values3.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH_PHOTO, R.drawable.watch3);
         values3.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH_PRICE, 4799);
-        long newRowId3 = db_write.insert(DbHelper.ItemEntry.TABLE_NAME, null, values3);*/
+        long newRowId3 = db_write.insert(DbHelper.ItemEntry.TABLE_NAME, null, values3);
+*/
+
 
 
 
@@ -151,8 +162,22 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    addDynamicShortcuts(this);
+
 
     }
+
+    private void addDynamicShortcuts(Context context) {
+        ShortcutManager shortcutManager = (ShortcutManager) getSystemService(Context.SHORTCUT_SERVICE);
+        List<ShortcutInfo> shortcutInfoList = new ArrayList<>();
+        shortcut = new ShortcutInfo.Builder(context,"open")
+                .setShortLabel("Sprawdź tekst")
+                .setLongLabel("Sprawdź wiadomości tekstowe")
+                .setIcon(Icon.createWithResource(context,R.drawable.ic_baseline_format_list_numbered_24))
+                .setIntent(new Intent(Intent.ACTION_VIEW,null,context, SendMessage.class).setAction("sms"))
+                .build();
+    }
+
     private void addProducts(){
 
     }

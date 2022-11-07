@@ -42,7 +42,7 @@ public class SendEmail extends AppCompatActivity {
         mailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
         mailIntent.putExtra(Intent.EXTRA_TEXT,body);
         mailIntent.setType("message/rfc822");
-        startActivity(Intent.createChooser(mailIntent, "Choose an Email client :"));
+        startActivity(Intent.createChooser(mailIntent, "Choose an email client: "));
 
     }
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kacper\'s Apple Shop</string>
+    <string name="dialog_name">"About "</string>
+    <string name="dialog_message">Created by Kacper Cichorski from 4PP</string>
+    <string name="subject">Order</string>
+    <string name="sendsms">Send SMS</string>
+    <string name="sendemail">Send E-mail</string>
+    <string name="shortcut_short_label">SMS</string>
+    <string name="shortcut_long_label">Send SMS</string>
+    <string name="shortcut_disabled_message">Disabled</string>
+    <string name="shortcut_short_label1">E-mail</string>
+    <string name="shortcut_long_label1">Send E-mail</string>
+    <string name="shortcut_disabled_message1">Disabled</string>
+    <string name="smsBody">"SMS "</string>
+    <string name="phoneNumber">Phone number</string>
+</resources>
