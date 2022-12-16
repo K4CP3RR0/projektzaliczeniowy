@@ -4,13 +4,81 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BuyPage">
+    tools:context=".BuyPage"
+    android:id="@+id/activityBuy">
 
+    <ImageView
+            android:id="@+id/imageItem"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_margin="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_launcher_background"
+            android:contentDescription="PhoneImage" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/titleItem"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_toEndOf="@+id/imageItem"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="title"
+            android:fontFamily="@font/share_tech"
+            android:textSize="40sp"
+
+
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/priceItem"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:layout_toEndOf="@+id/imageItem"
+            android:layout_below="@id/titleItem"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="price"
+            android:fontFamily="@font/share_tech"
+            android:textSize="20sp"
+
+
+            />
+
+    <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/inputNumberBuy"
+            android:layout_below="@id/imageItem"
+            android:hint="@string/numberBuy"
+            />
     <androidx.recyclerview.widget.RecyclerView
+
+        android:layout_below="@id/inputNumberBuy"
         android:layout_width="409dp"
-        android:layout_height="729dp"
+        android:layout_height="120dp"
         tools:itemCount="3"
+        android:id="@+id/recyclerView"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp"
         tools:listitem="@layout/recycler_view_item" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/recyclerView"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/smsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="68dp"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/spinner"
+        android:layout_marginTop="20dp"
+        android:text="@string/sendsms" />
 </RelativeLayout>

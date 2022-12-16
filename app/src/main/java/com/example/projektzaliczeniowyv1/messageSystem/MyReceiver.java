@@ -1,4 +1,4 @@
-package com.example.projektzaliczeniowyv1;
+package com.example.projektzaliczeniowyv1.messageSystem;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

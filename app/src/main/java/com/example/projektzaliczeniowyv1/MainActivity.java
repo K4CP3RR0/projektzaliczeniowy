@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.content.pm.ShortcutManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.graphics.Color;
 import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,8 +23,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.projektzaliczeniowyv1.database.DbHelper;
@@ -41,16 +46,23 @@ public class MainActivity extends AppCompatActivity {
     SQLiteDatabase db;
 
     private static final String TAG="1111";
+    RelativeLayout activityMain;
     ListView listView;
     HashMap<String, Object> hashMap;
     ArrayList<HashMap<String, Object>> itemList;
     SQLiteDatabase db_write;
     ShortcutInfo shortcut;
 
+
+    @SuppressLint({"MissingInflatedId", "ResourceAsColor"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        activityMain = findViewById(R.id.activityMain);
+        listView = findViewById(R.id.simpleListView);
+        //activityMain.setBackgroundColor(Color.rgb(244,244,244));
+        //listView.setBackgroundColor(R.color.F4F4F4);
         dbHelper = new DbHelper(getApplicationContext());
         db_write = dbHelper.getWritableDatabase();
         try{
@@ -77,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
-       /* ContentValues values1 = new ContentValues();
+
+        ContentValues values1 = new ContentValues();
         values1.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE, "Apple iPhone 14 Pro 512GB Space Black");
         values1.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE_PHOTO, R.drawable.iphone1);
         values1.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE_PRICE, 8499);
@@ -87,8 +100,6 @@ public class MainActivity extends AppCompatActivity {
         values1.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH, "Apple Watch Series 8 Black 41mm");
         values1.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH_PHOTO, R.drawable.watch1);
         values1.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH_PRICE, 2399);
-        long newRowId = db_write.insert(DbHelper.ItemEntry.TABLE_NAME, null, values1);
-
         ContentValues values2 = new ContentValues();
         values2.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE, "Apple iPhone 13 256 GB – Blue");
         values2.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE_PHOTO, R.drawable.iphone2);
@@ -99,23 +110,22 @@ public class MainActivity extends AppCompatActivity {
         values2.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH, "Apple Watch SE Midnight Aluminium Case with Sport Loop 40mm");
         values2.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH_PHOTO, R.drawable.watch2);
         values2.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH_PRICE, 1499);
-        long newRowId2 = db_write.insert(DbHelper.ItemEntry.TABLE_NAME, null, values2);
-
         ContentValues values3 = new ContentValues();
         values3.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE, "Apple iPhone 12 256GB Black");
         values3.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE_PHOTO, R.drawable.iphone3);
-        values3.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE_PRICE, 8499);
+        values3.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE_PRICE, 4949);
         values3.put(DbHelper.ItemEntry.COLUMN_NAME_HEADPHONES, "Apple AirPods Max Space Gray");
         values3.put(DbHelper.ItemEntry.COLUMN_NAME_HEADPHONES_PHOTO, R.drawable.airpods3);
         values3.put(DbHelper.ItemEntry.COLUMN_NAME_HEADPHONES_PRICE, 3099);
         values3.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH, "Apple Watch Ultra Titanium Case with Starlight Alpine Loop 49mm");
         values3.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH_PHOTO, R.drawable.watch3);
         values3.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH_PRICE, 4799);
-        long newRowId3 = db_write.insert(DbHelper.ItemEntry.TABLE_NAME, null, values3);
-*/
 
+        //int checker = dbHelper.checkIfExists("Apple iPhone 12 256GB Black");
 
-
+       // long newRowId = db_write.insert(DbHelper.ItemEntry.TABLE_NAME, null, values1);
+        //long newRowId2 = db_write.insert(DbHelper.ItemEntry.TABLE_NAME, null, values2);
+       // long newRowId3 = db_write.insert(DbHelper.ItemEntry.TABLE_NAME, null, values3);
 
 
 
@@ -123,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         images = dbHelper.readData(DbHelper.ItemEntry.COLUMN_NAME_PHONE_PHOTO);
         prices = dbHelper.readData(DbHelper.ItemEntry.COLUMN_NAME_PHONE_PRICE);
 
-        listView = findViewById(R.id.simpleListView);
+
 
        itemList = new ArrayList();
 
@@ -155,9 +165,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(),BuyPage.class);
+                Log.v(TAG,itemList.toString());
+                Log.v(TAG, String.valueOf(images.get(i)));
+                //Toast.makeText(getApplicationContext(), (CharSequence) itemList.get(i),Toast.LENGTH_SHORT).show();
+
+
+                String nameProduct = String.valueOf(titles.get(i));
+                String priceProduct = String.valueOf(prices.get(i));
+                int imageProduct = Integer.parseInt(String.valueOf(images.get(i)));
+                Log.v(TAG,"Photo: "+ imageProduct);
+                intent.putExtra("productName", nameProduct);
+                intent.putExtra("productPrice", priceProduct);
+                intent.putExtra("productImage", imageProduct);
                 startActivity(intent);
-                
-                Toast.makeText(getApplicationContext(), (CharSequence) itemList.get(i),Toast.LENGTH_SHORT).show();
+
             }
         });
 

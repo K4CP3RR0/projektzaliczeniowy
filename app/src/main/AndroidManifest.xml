@@ -35,7 +35,7 @@
         <activity
             android:name=".messageSystem.SendMessage"
             android:exported="false"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".BuyPage">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -55,7 +55,7 @@
         </activity>
 
         <receiver
-            android:name=".MyReceiver"
+            android:name=".messageSystem.MyReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

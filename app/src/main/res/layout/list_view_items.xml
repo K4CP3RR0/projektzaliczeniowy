@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
     <ImageView
         android:id="@+id/imageItem"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_margin="10dp"
         android:scaleType="fitCenter"
+        android:contentDescription="@string/image"
         android:src="@drawable/ic_launcher_background"
         />
-    
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/titleItem"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_toRightOf="@+id/imageItem"
+        android:layout_marginEnd="20dp"
+        android:layout_toEndOf="@+id/imageItem"
         android:gravity="center"
         android:padding="5dp"
-        android:text="title"
-        android:textColor="@color/black"
+        android:textColor="@color/spinnerText"
+        android:fontFamily="@font/share_tech"
         android:textSize="40sp"
-        android:textStyle="bold"
+
 
         />
     <TextView
@@ -31,15 +33,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/priceItem"
         android:layout_marginTop="5dp"
-        android:layout_marginRight="20dp"
-        android:layout_toRightOf="@+id/imageItem"
+        android:layout_marginEnd="20dp"
+        android:layout_toEndOf="@+id/imageItem"
         android:layout_below="@id/titleItem"
         android:gravity="center"
         android:padding="5dp"
-        android:text="price"
-        android:textColor="@color/black"
+        android:textColor="@color/spinnerText"
+        android:fontFamily="@font/share_tech"
         android:textSize="20sp"
-        android:textStyle="bold"
+
 
         />
 </RelativeLayout>

@@ -19,7 +19,9 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public class ItemEntry implements BaseColumns {
-        public static final String TABLE_NAME = "user_order";
+        public static final String TABLE_NAME = "products";
+        public static final String TABLE_NAME1 = "user";
+        public static final String TABLE_NAME2 = "cart";
         //        public static final String COLUMN_NAME_TITLE = "title";
 //        public static final String COLUMN_NAME_SUBTITLE = "subtitle";
         public static final String COLUMN_NAME_PHONE = "phone";
@@ -32,6 +34,12 @@ public class DbHelper extends SQLiteOpenHelper {
         public static final String COLUMN_NAME_WATCH = "watch";
         public static final String COLUMN_NAME_WATCH_PHOTO = "watch_photo";
         public static final String COLUMN_NAME_WATCH_PRICE = "watch_price";
+        public static final String COLUMN_NAME_TOTAL_PRICE = "total_price";
+        public static final String COLUMN_NAME_USERNAME = "user";
+        public static final String COLUMN_NAME_PASSWORD = "password";
+        public static final String COLUMN_NAME_EMAIL = "email";
+
+
     }
 
     private static final String SQL_CREATE_ENTRIES =
@@ -48,21 +56,42 @@ public class DbHelper extends SQLiteOpenHelper {
                     + ItemEntry.COLUMN_NAME_WATCH + " TEXT, "
                     + ItemEntry.COLUMN_NAME_WATCH_PHOTO + " INT, "
                     + ItemEntry.COLUMN_NAME_WATCH_PRICE + " INT )";
+    //Entries for User Table
+    private static final String SQL_CREATE_ENTRIES_USER =
+            "CREATE TABLE "
+                    + ItemEntry.TABLE_NAME1 + " ("
+                    + ItemEntry._ID + " INTEGER PRIMARY KEY,"
+                    + ItemEntry.COLUMN_NAME_EMAIL + " TEXT,"
+                    + ItemEntry.COLUMN_NAME_USERNAME + " TEXT,"
+                    + ItemEntry.COLUMN_NAME_PASSWORD + " PASSWORD )";
+    //Entries for Cart Table
+   /* private static final String SQL_CREATE_ENTRIES_CART =
+            "CREATE TABLE "
+                    + ItemEntry.TABLE_NAME2 + " ("
+                    + ItemEntry._ID + " INTEGER PRIMARY KEY,"
+                    + ItemEntry.COLUMN_NAME_EMAIL + " TEXT,"
+                    + ItemEntry.COLUMN_NAME_USERNAME + " TEXT,"
+                    + ItemEntry.COLUMN_NAME_PASSWORD + " PASSWORD )";*/
 
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS "
                     + ItemEntry.TABLE_NAME;
+    private static final String SQL_DELETE_ENTRIES_USER =
+            "DROP TABLE IF EXISTS "
+                    + ItemEntry.TABLE_NAME1;
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(SQL_CREATE_ENTRIES);
+        sqLiteDatabase.execSQL(SQL_CREATE_ENTRIES_USER);
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL(SQL_DELETE_ENTRIES);
+        sqLiteDatabase.execSQL(SQL_CREATE_ENTRIES_USER);
         onCreate(sqLiteDatabase);
     }
     @Override
@@ -128,6 +157,13 @@ public class DbHelper extends SQLiteOpenHelper {
         cursor.close();
         Log.v("TAG","--------------------------------"+result);
         return result;
+    }
+    public void checkIfExists(String like){
+        SQLiteDatabase db_write = getWritableDatabase();
+        String selection = ItemEntry.COLUMN_NAME_PHONE + " LIKE ?";
+        String[] selectionArgs = {like};
+        db_write.execSQL("SELECT phone " + selection + " " + like);
+
     }
     public int deleteData(String like){
         SQLiteDatabase db_write = getWritableDatabase();

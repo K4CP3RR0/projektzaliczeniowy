@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:id="@+id/activityMain">
 
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/simpleListView"
-        android:divider="@color/dividerColor"
-        android:dividerHeight="1dp"
-        android:listSelector="@color/listSelector"
         />
+<!--        android:listSelector="@color/listSelector"-->
+
 </RelativeLayout>

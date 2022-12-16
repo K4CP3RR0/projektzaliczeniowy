@@ -13,5 +13,8 @@
     <string name="sendemail">Wyślij e-mail</string>
     <string name="smsBody">Treść wiadomości</string>
     <string name="phoneNumber">Numer telefonu</string>
+    <string name="emailBuy">Wprowadź swój e-mail</string>
+    <string name="numberBuy">Wprowadź swój numer telefonu</string>
+    <string name="image">Zdjęcie telefonu</string>
 
 </resources>

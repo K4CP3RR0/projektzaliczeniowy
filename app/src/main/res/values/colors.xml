@@ -10,4 +10,9 @@
     <color name="listSelector">#802196F3</color>
     <color name="dividerColor">#BF2196F3</color>
     <color name="buttonColor">#3F51B5</color>
+    <color name="F4F4F4">#F4F4F4</color>
+    <color name="mainColor">#363636</color>
+    <color name="secondColor">#892121</color>
+    <color name="textColor">#363636</color>
+    <color name="spinnerText">#253486</color>
 </resources>
