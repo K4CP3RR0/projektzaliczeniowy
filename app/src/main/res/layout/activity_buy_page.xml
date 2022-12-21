@@ -54,8 +54,9 @@
             android:id="@+id/inputNumberBuy"
             android:layout_below="@id/imageItem"
             android:hint="@string/numberBuy"
+        android:layout_marginTop="50dp"
             />
-    <androidx.recyclerview.widget.RecyclerView
+    <!--<androidx.recyclerview.widget.RecyclerView
 
         android:layout_below="@id/inputNumberBuy"
         android:layout_width="409dp"
@@ -64,21 +65,77 @@
         android:id="@+id/recyclerView"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp"
-        tools:listitem="@layout/recycler_view_item" />
-
+        tools:listitem="@layout/recycler_view_item" />-->
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/airpodsCheckbox"
+        android:text="Want Airpods too?"
+        android:layout_below="@+id/inputNumberBuy"/>
+    <Spinner
+        android:id="@+id/spinnerAirpods"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/airpodsCheckbox"
+        android:layout_marginTop="5dp"/>
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/watchCheckbox"
+        android:text="Want Watch too?"
+        android:layout_below="@+id/spinnerAirpods"/>
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/recyclerView"
-        android:layout_marginTop="10dp"/>
+        android:layout_below="@+id/watchCheckbox"
+        android:layout_marginTop="5dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:id="@+id/orderList"
+        android:layout_below="@+id/spinner"
+        android:layout_marginTop="5dp"
+        android:text="Your order: "
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:id="@+id/airpodsSelected"
+        android:layout_below="@+id/orderList"
+        android:layout_marginTop="5dp"
+        android:text=""
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:id="@+id/watchSelected"
+        android:layout_below="@+id/airpodsSelected"
+        android:layout_marginTop="5dp"
+        android:text=""
+        />
+
+
 
     <Button
         android:id="@+id/smsButton"
         android:layout_width="wrap_content"
         android:layout_height="68dp"
         android:layout_marginStart="10dp"
-        android:layout_below="@id/spinner"
-        android:layout_marginTop="20dp"
+        android:layout_below="@id/watchSelected"
+        android:layout_marginTop="5dp"
         android:text="@string/sendsms" />
+
+    <Button
+        android:id="@+id/checkPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="68dp"
+        android:layout_below="@id/watchSelected"
+        android:layout_toEndOf="@id/smsButton"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="-152dp"
+        android:text="Check Price" />
+
 </RelativeLayout>

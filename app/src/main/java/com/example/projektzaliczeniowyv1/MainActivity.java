@@ -1,5 +1,7 @@
 package com.example.projektzaliczeniowyv1;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -123,10 +125,26 @@ public class MainActivity extends AppCompatActivity {
 
         //int checker = dbHelper.checkIfExists("Apple iPhone 12 256GB Black");
 
-       // long newRowId = db_write.insert(DbHelper.ItemEntry.TABLE_NAME, null, values1);
-        //long newRowId2 = db_write.insert(DbHelper.ItemEntry.TABLE_NAME, null, values2);
-       // long newRowId3 = db_write.insert(DbHelper.ItemEntry.TABLE_NAME, null, values3);
+      /*  long newRowId = db_write.insert(DbHelper.ItemEntry.TABLE_NAME, null, values1);
+        long newRowId2 = db_write.insert(DbHelper.ItemEntry.TABLE_NAME, null, values2);
+        long newRowId3 = db_write.insert(DbHelper.ItemEntry.TABLE_NAME, null, values3);*/
+        boolean iPhone14 = dbHelper.checkIfExists("products","phone","'Apple iPhone 14 Pro 512GB Space Black'");
+        boolean iPhone13 = dbHelper.checkIfExists("products","phone","'Apple iPhone 13 256 GB – Blue'");
+        boolean iPhone12 = dbHelper.checkIfExists("products","phone","'Apple iPhone 12 256GB Black'");
 
+        if(iPhone14 == false){
+            long newRowId = db_write.insert(DbHelper.ItemEntry.TABLE_NAME, null, values1);
+        }else{
+            iPhone14 = true;
+        }if(iPhone13 == false){
+            long newRowId = db_write.insert(DbHelper.ItemEntry.TABLE_NAME, null, values2);
+        }else{
+            iPhone13 = true;
+        }if(iPhone12 == false){
+            long newRowId = db_write.insert(DbHelper.ItemEntry.TABLE_NAME, null, values3);
+        }else{
+            iPhone12 = true;
+        }
 
 
         titles = dbHelper.readData(DbHelper.ItemEntry.COLUMN_NAME_PHONE) ;

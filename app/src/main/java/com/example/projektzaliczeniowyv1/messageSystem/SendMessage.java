@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.projektzaliczeniowyv1.MainActivity;
 import com.example.projektzaliczeniowyv1.R;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -26,14 +27,19 @@ public class SendMessage extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 1;
     private static final int MY_PERMISSIONS_REQUEST_RECEIVE_SMS = 2;
 
-    private ActivityResultLauncher<String> requestPermissionLauncher =
+    public ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {
-                    Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-                    sendIntent.putExtra("sms_body", "default content");
-                    sendIntent.setType("vnd.android-dir/mms-sms");
-                    startActivity(sendIntent);
+                    grantedSMS();
                 }});
+
+    public void grantedSMS() {
+        Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+        sendIntent.putExtra("sms_body", "default content");
+        sendIntent.setType("vnd.android-dir/mms-sms");
+        startActivity(sendIntent);
+    }
+
     SmsManager smsManager;
     String destinationAddress = "";
     String scAddress = null;
@@ -97,6 +103,7 @@ public class SendMessage extends AppCompatActivity {
         }
         return true;
     }
+
 
 
 

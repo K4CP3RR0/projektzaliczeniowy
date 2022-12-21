@@ -158,11 +158,28 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.v("TAG","--------------------------------"+result);
         return result;
     }
-    public void checkIfExists(String like){
+    /*public void checkIfExists(String columnName,String selection,String like){
         SQLiteDatabase db_write = getWritableDatabase();
-        String selection = ItemEntry.COLUMN_NAME_PHONE + " LIKE ?";
-        String[] selectionArgs = {like};
-        db_write.execSQL("SELECT phone " + selection + " " + like);
+//        String selection = ItemEntry.COLUMN_NAME_PHONE + " LIKE ?";
+//        String[] selectionArgs = {like};
+//        db_write.execSQL("SELECT phone " + selection + " " + like);
+        db_write.q("SELECT phone FROM products WHERE phone LIKE 'Apple iPhone 12 256GB Black';");
+    }*/
+    public boolean checkIfExists(String tableName, String dbField, String fieldValue){
+        SQLiteDatabase db_write = getWritableDatabase();
+        String query = "SELECT * FROM " + tableName + " WHERE " + dbField + " = " + fieldValue+";";
+        Cursor cursor = db_write.rawQuery(query,null);
+        if(cursor.getCount() <= 0){
+
+            cursor.close();
+            Log.v("CHECK","FALSE");
+            return false;
+
+        }
+        cursor.close();
+        Log.v("CHECK","TRUE");
+        return true;
+
 
     }
     public int deleteData(String like){
