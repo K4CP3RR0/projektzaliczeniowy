@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Kacper\'s Apple Shop</string>
     <string name="dialog_name">"About "</string>
-    <string name="dialog_message">Created by Kacper Cichorski from 4PP</string>
+    <string name="dialog_message">Created by Kacper Cichorski 4PP</string>
     <string name="subject">Order</string>
     <string name="sendsms">Send SMS</string>
     <string name="sendemail">Send E-mail</string>
@@ -14,4 +14,16 @@
     <string name="shortcut_disabled_message1">Disabled</string>
     <string name="smsBody">"SMS "</string>
     <string name="phoneNumber">Phone number</string>
+    <string name="price">price</string>
+    <string name="want_airpods_too">Want Airpods too?</string>
+    <string name="want_watch_too">Want Watch too?</string>
+    <string name="your_order">Your order:</string>
+    <string name="order">ORDER</string>
+    <string name="check_price">Check Price</string>
+    <string name="o_programie">"About "</string>
+    <string name="udost_pnij">Share</string>
+    <string name="lista_zam_wie">Orders List</string>
+    <string name="image">Phone Photo</string>
+    <string name="numberBuy">Write your phone number</string>
+    <string name="emailBuy">Write your e-mail</string>
 </resources>

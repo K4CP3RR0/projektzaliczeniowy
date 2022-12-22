@@ -4,11 +4,16 @@
 
 #### App Name : Kacper's Apple Shop
 
+```
+![alt text](screen3.png "Main Page")
+```
 
-![alt text](screen1.png "Main Page")
+![](screen4.jpg "Main Page")
 
-![alt text](screen2.png "SMS Page")
 
-![alt text](screen3.png "E-MAIL Page")
 
-# Work in progress
+
+
+![](screen5.jpg) 
+
+![](screen6.jpg)

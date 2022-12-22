@@ -70,7 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/airpodsCheckbox"
-        android:text="Want Airpods too?"
+        android:text="@string/want_airpods_too"
         android:layout_below="@+id/inputNumberBuy"/>
     <Spinner
         android:id="@+id/spinnerAirpods"
@@ -82,7 +82,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/watchCheckbox"
-        android:text="Want Watch too?"
+        android:text="@string/want_watch_too"
         android:layout_below="@+id/spinnerAirpods"/>
     <Spinner
         android:id="@+id/spinner"
@@ -96,7 +96,7 @@
         android:id="@+id/orderList"
         android:layout_below="@+id/spinner"
         android:layout_marginTop="5dp"
-        android:text="Your order: "
+        android:text="@string/your_order"
         />
 
     <TextView
@@ -136,6 +136,22 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="-152dp"
-        android:text="Check Price" />
+        android:text="@string/check_price" />
 
+    <Button
+        android:id="@+id/addOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="68dp"
+        android:layout_below="@id/watchSelected"
+        android:layout_toEndOf="@id/checkPrice"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="-152dp"
+        android:text="@string/order" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/priceOrderr"
+        android:layout_below="@id/smsButton"
+        android:layout_marginTop="2dp"/>
 </RelativeLayout>

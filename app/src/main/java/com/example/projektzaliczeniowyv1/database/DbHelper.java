@@ -21,7 +21,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public class ItemEntry implements BaseColumns {
         public static final String TABLE_NAME = "products";
         public static final String TABLE_NAME1 = "user";
-        public static final String TABLE_NAME2 = "cart";
+        public static final String TABLE_NAME2 = "orders";
         //        public static final String COLUMN_NAME_TITLE = "title";
 //        public static final String COLUMN_NAME_SUBTITLE = "subtitle";
         public static final String COLUMN_NAME_PHONE = "phone";
@@ -38,6 +38,11 @@ public class DbHelper extends SQLiteOpenHelper {
         public static final String COLUMN_NAME_USERNAME = "user";
         public static final String COLUMN_NAME_PASSWORD = "password";
         public static final String COLUMN_NAME_EMAIL = "email";
+        public static final String COLUMN_NAME_PHONE_ORDER = "phone_order";
+        public static final String COLUMN_NAME_AIRPODS_ORDER = "airpods_order";
+        public static final String COLUMN_NAME_WATCH_ORDER = "watch_order";
+        public static final String COLUMN_NAME_PRICE_ORDER = "price_order";
+
 
 
     }
@@ -64,8 +69,8 @@ public class DbHelper extends SQLiteOpenHelper {
                     + ItemEntry.COLUMN_NAME_EMAIL + " TEXT,"
                     + ItemEntry.COLUMN_NAME_USERNAME + " TEXT,"
                     + ItemEntry.COLUMN_NAME_PASSWORD + " PASSWORD )";
-    //Entries for Cart Table
-   /* private static final String SQL_CREATE_ENTRIES_CART =
+    //Entries for Order Table
+    /*private static final String SQL_CREATE_ENTRIES_CART =
             "CREATE TABLE "
                     + ItemEntry.TABLE_NAME2 + " ("
                     + ItemEntry._ID + " INTEGER PRIMARY KEY,"
@@ -73,10 +78,20 @@ public class DbHelper extends SQLiteOpenHelper {
                     + ItemEntry.COLUMN_NAME_USERNAME + " TEXT,"
                     + ItemEntry.COLUMN_NAME_PASSWORD + " PASSWORD )";*/
 
+    private static final String SQL_CREATE_ENTRIES_ORDERS =
+            "CREATE TABLE "
+                    + ItemEntry.TABLE_NAME2 + " ("
+                    + ItemEntry._ID + "INTEGER PRIMARY KEY, "
+                    + ItemEntry.COLUMN_NAME_PHONE_ORDER  + "TEXT, "
+                    + ItemEntry.COLUMN_NAME_AIRPODS_ORDER + "TEXT, "
+                    + ItemEntry.COLUMN_NAME_WATCH_ORDER + "TEXT, "
+                    + ItemEntry.COLUMN_NAME_PRICE_ORDER + "INT )";
+
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS "
                     + ItemEntry.TABLE_NAME;
+
     private static final String SQL_DELETE_ENTRIES_USER =
             "DROP TABLE IF EXISTS "
                     + ItemEntry.TABLE_NAME1;
@@ -85,6 +100,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(SQL_CREATE_ENTRIES);
         sqLiteDatabase.execSQL(SQL_CREATE_ENTRIES_USER);
+        sqLiteDatabase.execSQL(SQL_CREATE_ENTRIES_ORDERS);
 
     }
 
@@ -97,6 +113,59 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         super.onDowngrade(db, oldVersion, newVersion);
+    }
+    public List readOrder(String columnName){
+        SQLiteDatabase db_read = getReadableDatabase();
+
+        String[] projection = {
+                BaseColumns._ID,
+                ItemEntry.COLUMN_NAME_PHONE_ORDER,
+                ItemEntry.COLUMN_NAME_AIRPODS_ORDER,
+                ItemEntry.COLUMN_NAME_WATCH_ORDER,
+                ItemEntry.COLUMN_NAME_PRICE_ORDER,
+
+        };
+
+        String sortOrder =
+                ItemEntry.COLUMN_NAME_PHONE_ORDER + " DESC";
+
+        Cursor cursor = db_read.query(
+                ItemEntry.TABLE_NAME2,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                sortOrder
+        );
+
+        List result = new ArrayList<>();
+        while(cursor.moveToNext()){
+            if(columnName == BaseColumns._ID){
+                long item = cursor.getLong(
+                        cursor.getColumnIndexOrThrow(ItemEntry._ID)
+                );
+                result.add(item);
+            } else if(columnName == ItemEntry.COLUMN_NAME_PHONE_ORDER
+                    || columnName == ItemEntry.COLUMN_NAME_AIRPODS_ORDER
+                    || columnName == ItemEntry.COLUMN_NAME_WATCH_ORDER
+                    || columnName == ItemEntry.COLUMN_NAME_PRICE_ORDER
+                    ){
+                int item = cursor.getInt(
+                        cursor.getColumnIndexOrThrow(columnName)
+                );
+                result.add(item);
+            }
+            else{
+                String item = cursor.getString(
+                        cursor.getColumnIndexOrThrow(columnName)
+                );
+                result.add(item);
+            }
+        }
+        cursor.close();
+        Log.v("TAG","--------------------------------"+result);
+        return result;
     }
     public List readData(String columnName){
         SQLiteDatabase db_read = getReadableDatabase();

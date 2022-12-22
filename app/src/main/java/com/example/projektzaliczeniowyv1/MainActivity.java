@@ -90,6 +90,17 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
+            if (e.getMessage().contains("no such table")){
+                Log.e(TAG, "Creating table " + DbHelper.ItemEntry.TABLE_NAME2 + "because it doesn't exist!" );
+                db_write.execSQL("CREATE TABLE "
+                        + DbHelper.ItemEntry.TABLE_NAME2 + " ("
+                        + DbHelper.ItemEntry._ID + "INTEGER PRIMARY KEY, "
+                        + DbHelper.ItemEntry.COLUMN_NAME_PHONE_ORDER  + "TEXT, "
+                        + DbHelper.ItemEntry.COLUMN_NAME_AIRPODS_ORDER + "TEXT, "
+                        + DbHelper.ItemEntry.COLUMN_NAME_WATCH_ORDER + "TEXT, "
+                        + DbHelper.ItemEntry.COLUMN_NAME_PRICE_ORDER + "INT )");
+
+            }
         }
 
         ContentValues values1 = new ContentValues();
@@ -234,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
           case R.id.order_list:
               orderList();
               break;
-          case R.id.send_message:
+         /* case R.id.send_message:
              Intent intentSMS = new Intent(this, SendMessage.class);
              startActivity(intentSMS);
 
@@ -243,14 +254,11 @@ public class MainActivity extends AppCompatActivity {
               Intent intentEmail = new Intent(this, SendEmail.class);
               startActivity(intentEmail);
 
-              break;
+              break;*/
           case R.id.share:
               shareList();
               break;
-          case R.id.set_settings:
-              saveSettings();
-              break;
-          case R.id.about:
+              case R.id.about:
               showAlertDialog(findViewById(R.id.about));
               break;
               default:
@@ -271,8 +279,8 @@ public class MainActivity extends AppCompatActivity {
         alert.setTitle(R.string.dialog_name);
         alert.setTitle(R.string.dialog_message);
         Dialog d  = alert.setView(new View(this)).create();
-        int width=(int) (getResources().getDisplayMetrics().widthPixels*0.70);
-        int height=(int) (getResources().getDisplayMetrics().heightPixels*0.20);
+        int width=(int) (getResources().getDisplayMetrics().widthPixels*0.80);
+        int height=(int) (getResources().getDisplayMetrics().heightPixels*0.15);
         d.show();
         d.getWindow().setLayout(width,height);
    }

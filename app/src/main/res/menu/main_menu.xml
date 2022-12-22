@@ -2,16 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group>
         <item android:id="@+id/order_list"
-            android:title="Lista zamówień"/>
-        <item android:id="@+id/send_message"
+            android:title="@string/lista_zam_wie"/>
+        <!--<item android:id="@+id/send_message"
             android:title="Wyślij SMS"/>
         <item android:id="@+id/send_email"
-            android:title="Wyślij E-mail"/>
+            android:title="Wyślij E-mail"/>-->
         <item android:id="@+id/share"
-            android:title="Udostępnij"/>
-        <item android:id="@+id/set_settings"
-            android:title="Zapisz ustawienia"/>
+            android:title="@string/udost_pnij"/>
+        <!--<item android:id="@+id/set_settings"
+            android:title="Zapisz ustawienia"/>-->
         <item android:id="@+id/about"
-            android:title="O programie"/>
+            android:title="@string/o_programie"/>
     </group>
 </menu>

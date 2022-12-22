@@ -16,5 +16,14 @@
     <string name="emailBuy">Wprowadź swój e-mail</string>
     <string name="numberBuy">Wprowadź swój numer telefonu</string>
     <string name="image">Zdjęcie telefonu</string>
+    <string name="lista_zam_wie">Lista zamówień</string>
+    <string name="udost_pnij">Udostępnij</string>
+    <string name="o_programie">O programie</string>
+    <string name="check_price">Cena</string>
+    <string name="order">ZAMÓW</string>
+    <string name="your_order">Twoje zamówienie</string>
+    <string name="want_airpods_too">Chcesz rownież airpodsy?</string>
+    <string name="price">cena</string>
+    <string name="want_watch_too">Chcesz również zegarek</string>
 
 </resources>

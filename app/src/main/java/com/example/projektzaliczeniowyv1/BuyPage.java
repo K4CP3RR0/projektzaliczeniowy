@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,39 +36,25 @@ import java.util.Collections;
 import java.util.List;
 
 public class BuyPage extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-    TextView productPrice;
-    TextView productName;
+    TextView productPrice, productName, watchSelected, airpodsSelected, priceOrderr;
     ImageView productPhoto;
     DbHelper dbHelper;
-    SQLiteDatabase db_read;
-    List titles;
-    List prices;
-    List images;
-    List titlesWatches;
-    List pricesWatches;
-    List imagesWatches;
-    String watches;
-    Spinner spinner;
-    Spinner airpodsSpinner;
-    int whatItem;
-    CheckBox airpodsCheckbox;
-    CheckBox watchCheckbox;
+    SQLiteDatabase db_read, db_write;
+    List titles, prices, images, titlesWatches, pricesWatches, imagesWatches;
+
+    Spinner spinner, airpodsSpinner;
+    CheckBox airpodsCheckbox, watchCheckbox;
     RelativeLayout activityBuy;
-    TextView watchSelected;
-    TextView airpodsSelected;
     SendEmail sendEmail;
     SendMessage sendMessage = new SendMessage();
-    String destinationAddress;
-    String orderInfo;
-    TextInputEditText inputEmailBuy;
-    TextInputEditText inputNumberBuy;
-    Button smsButton;
-    Boolean watchPreferences;
-    Boolean airpodsPreferences;
+    String destinationAddress, orderInfo, watches;
+    TextInputEditText inputEmailBuy, inputNumberBuy;
+    Button smsButton, addOrder;
+    Boolean watchPreferences, airpodsPreferences;
     int airpodsPrice = 0;
     int watchPrice = 0;
-    int phonePrice;
-    int price;
+    int phonePrice, price, whatItem;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +64,8 @@ public class BuyPage extends AppCompatActivity implements AdapterView.OnItemSele
         //activityBuy.setBackgroundColor(Color.rgb(244,244,244));
         dbHelper = new DbHelper(getApplicationContext());
         db_read = dbHelper.getReadableDatabase();
-
-
+        db_write = dbHelper.getWritableDatabase();
+        addOrder = findViewById(R.id.addOrder);
         productName = findViewById(R.id.titleItem);
         productPrice = findViewById(R.id.priceItem);
         productPhoto = findViewById(R.id.imageItem);
@@ -128,7 +115,7 @@ public class BuyPage extends AppCompatActivity implements AdapterView.OnItemSele
         orderList.setText("Your order: " + getIntent().getStringExtra("productName") + " " + Integer.parseInt(getIntent().getStringExtra("productPrice")));
 
 
-        airpodsCheckbox.setChecked(true);
+//        airpodsCheckbox.setChecked(true);
         //airpodsPreferences);
         airpodsCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -149,10 +136,11 @@ public class BuyPage extends AppCompatActivity implements AdapterView.OnItemSele
                     });
                 }else{
                     airpodsSelected.setText("");
+                    airpodsPrice = 0;
                 }
             }
         });
-        watchCheckbox.setChecked(true);
+//        watchCheckbox.setChecked(true);
                 //watchPreferences);
         watchCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -173,26 +161,14 @@ public class BuyPage extends AppCompatActivity implements AdapterView.OnItemSele
                     });
                 }else{
                     watchSelected.setText("");
+                    watchPrice = 0;
                 }
 
             }
         });
 
 
-        smsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),SendMessage.class);
-                destinationAddress = inputNumberBuy.getText().toString();
-                Log.v("SMSS",destinationAddress);
-                orderInfo = "Zamówienie: \n" + productName.getText().toString() + "- " + productPrice.getText().toString();
-                intent.putExtra("phoneNumber", destinationAddress);
-                intent.putExtra("orderInfo", orderInfo);
-                startActivity(intent);
-
-
-            }
-        });
+        priceOrderr = findViewById(R.id.priceOrderr);
         Button checkPrice = findViewById(R.id.checkPrice);
         checkPrice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,18 +176,63 @@ public class BuyPage extends AppCompatActivity implements AdapterView.OnItemSele
                 phonePrice = Integer.parseInt(getIntent().getStringExtra("productPrice"));
                 if (watchPrice!=0 || airpodsPrice!=0){
                     price = phonePrice + watchPrice + airpodsPrice;
+                    priceOrderr.setText(getResources().getString(R.string.price) + ":" + price);
                 }
                 else if(watchPrice!=0 || airpodsPrice==0){
                     price = phonePrice + watchPrice;
+                    priceOrderr.setText(getResources().getString(R.string.price) + ":" + price);
 
                 }else if(watchPrice==0 || airpodsPrice!=0){
                     price = phonePrice + airpodsPrice;
+                    priceOrderr.setText(getResources().getString(R.string.price) + ":" + price);
+
                 }else if(watchPrice==0 || airpodsPrice==0){
                     price = phonePrice;
+                    priceOrderr.setText(getResources().getString(R.string.price) + ":" + price);
                 }
                 Log.v("PRICE", "Price: " + String.valueOf(price));
             }
         });
+
+        smsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),SendMessage.class);
+                destinationAddress = inputNumberBuy.getText().toString();
+                Log.v("SMSS",destinationAddress);
+/*                orderInfo = "Zamówienie: \n"
+                        + productName.getText().toString() + " " + productPrice.getText().toString()
+                        + "\n " + airpodsSelected.getText().toString()
+                        + "\n " + watchSelected.getText().toString()
+                        + "\n Cena/Price : " + price + "zł";*/
+                orderInfo = "Zamówienie:"  + productName.getText().toString() + " "
+                        + productPrice.getText().toString() + ", "
+                        + airpodsSelected.getText().toString() + ", "
+                        + watchSelected.getText().toString() + "\n"
+                        + "Cena:" + price;
+                ;
+                Log.v("SMS1111", orderInfo);
+                intent.putExtra("phoneNumber", destinationAddress);
+                intent.putExtra("orderInfo", orderInfo);
+
+                startActivity(intent);
+
+
+            }
+        });
+
+        addOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE_ORDER,productPrice.getText().toString());
+                contentValues.put(DbHelper.ItemEntry.COLUMN_NAME_AIRPODS_ORDER,airpodsSelected.getText().toString());
+                contentValues.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH_ORDER,watchSelected.getText().toString());
+                contentValues.put(DbHelper.ItemEntry.COLUMN_NAME_PRICE_ORDER,price);
+                //long newRowId = db_write.insert(DbHelper.ItemEntry.TABLE_NAME2, null, contentValues);
+            }
+        });
+        //Log.v("ORDER", String.valueOf(dbHelper.readOrder("phone_order")));
 
 
 
@@ -221,7 +242,7 @@ public class BuyPage extends AppCompatActivity implements AdapterView.OnItemSele
 
     }
 
-    @Override
+   /* @Override
     protected void onPause() {
         super.onPause();
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
@@ -239,7 +260,7 @@ public class BuyPage extends AppCompatActivity implements AdapterView.OnItemSele
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         airpodsPreferences = sharedPref.getBoolean("airpodsCheckbox",airpodsCheckbox.isChecked());
         watchPreferences = sharedPref.getBoolean("watchCheckbox",watchCheckbox.isChecked());
-    }
+    }*/
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
