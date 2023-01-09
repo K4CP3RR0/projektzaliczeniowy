@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <ImageView
+        android:id="@+id/imageItem"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_margin="10dp"
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/image"
+        android:src="@drawable/ic_launcher_background"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/phoneItem"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_toRightOf="@id/imageItem"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textColor="@color/spinnerText"
+        android:fontFamily="@font/share_tech"
+        android:textSize="40sp"
+
+
+        />
+   <!-- <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/phoneItem"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_below="@id/titleItem"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textColor="@color/spinnerText"
+        android:fontFamily="@font/share_tech"
+        android:textSize="20sp"
+
+
+        />-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/airpodsItem"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_below="@id/imageItem"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textColor="@color/spinnerText"
+        android:fontFamily="@font/share_tech"
+        android:textSize="20sp"
+
+
+        /><TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/watchItem"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_below="@id/airpodsItem"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textColor="@color/spinnerText"
+        android:fontFamily="@font/share_tech"
+        android:textSize="20sp"
+
+
+        /><TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/priceItem"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_below="@id/watchItem"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textColor="@color/spinnerText"
+        android:fontFamily="@font/share_tech"
+        android:textSize="20sp"
+
+
+        />
+
+</RelativeLayout>

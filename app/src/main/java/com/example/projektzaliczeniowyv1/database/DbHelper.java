@@ -1,5 +1,6 @@
 package com.example.projektzaliczeniowyv1.database;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class DbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "ItemsShop.db";
+    public static final String DATABASE_NAME = "ShopD.db";
     public DbHelper(Context context){
 
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
@@ -27,20 +28,26 @@ public class DbHelper extends SQLiteOpenHelper {
         public static final String COLUMN_NAME_PHONE = "phone";
         public static final String COLUMN_NAME_PHONE_PHOTO = "phone_photo";
         public static final String COLUMN_NAME_PHONE_PRICE = "phone_price";
+
         public static final String COLUMN_NAME_AMOUNT = "amount";
+
         public static final String COLUMN_NAME_HEADPHONES = "headphones";
         public static final String COLUMN_NAME_HEADPHONES_PHOTO = "headphones_photo";
         public static final String COLUMN_NAME_HEADPHONES_PRICE = "headphones_price";
+
         public static final String COLUMN_NAME_WATCH = "watch";
         public static final String COLUMN_NAME_WATCH_PHOTO = "watch_photo";
         public static final String COLUMN_NAME_WATCH_PRICE = "watch_price";
-        public static final String COLUMN_NAME_TOTAL_PRICE = "total_price";
+
         public static final String COLUMN_NAME_USERNAME = "user";
         public static final String COLUMN_NAME_PASSWORD = "password";
         public static final String COLUMN_NAME_EMAIL = "email";
+
         public static final String COLUMN_NAME_PHONE_ORDER = "phone_order";
         public static final String COLUMN_NAME_AIRPODS_ORDER = "airpods_order";
+        public static final String COLUMN_NAME_AIRPODS_IMAGE_ORDER = "airpods_order_image";
         public static final String COLUMN_NAME_WATCH_ORDER = "watch_order";
+        public static final String COLUMN_NAME_WATCH_IMAGE_ORDER = "watch_order_image";
         public static final String COLUMN_NAME_PRICE_ORDER = "price_order";
 
 
@@ -62,13 +69,13 @@ public class DbHelper extends SQLiteOpenHelper {
                     + ItemEntry.COLUMN_NAME_WATCH_PHOTO + " INT, "
                     + ItemEntry.COLUMN_NAME_WATCH_PRICE + " INT )";
     //Entries for User Table
-    private static final String SQL_CREATE_ENTRIES_USER =
+    /*private static final String SQL_CREATE_ENTRIES_USER =
             "CREATE TABLE "
                     + ItemEntry.TABLE_NAME1 + " ("
                     + ItemEntry._ID + " INTEGER PRIMARY KEY,"
                     + ItemEntry.COLUMN_NAME_EMAIL + " TEXT,"
                     + ItemEntry.COLUMN_NAME_USERNAME + " TEXT,"
-                    + ItemEntry.COLUMN_NAME_PASSWORD + " PASSWORD )";
+                    + ItemEntry.COLUMN_NAME_PASSWORD + " PASSWORD )";*/
     //Entries for Order Table
     /*private static final String SQL_CREATE_ENTRIES_CART =
             "CREATE TABLE "
@@ -81,25 +88,25 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES_ORDERS =
             "CREATE TABLE "
                     + ItemEntry.TABLE_NAME2 + " ("
-                    + ItemEntry._ID + "INTEGER PRIMARY KEY, "
-                    + ItemEntry.COLUMN_NAME_PHONE_ORDER  + "TEXT, "
-                    + ItemEntry.COLUMN_NAME_AIRPODS_ORDER + "TEXT, "
-                    + ItemEntry.COLUMN_NAME_WATCH_ORDER + "TEXT, "
-                    + ItemEntry.COLUMN_NAME_PRICE_ORDER + "INT )";
+                    + ItemEntry._ID + " INTEGER PRIMARY KEY,"
+                    + ItemEntry.COLUMN_NAME_PHONE_ORDER  + " TEXT,"
+                    + ItemEntry.COLUMN_NAME_AIRPODS_ORDER + " TEXT,"
+                    + ItemEntry.COLUMN_NAME_WATCH_ORDER + " TEXT,"
+                    + ItemEntry.COLUMN_NAME_PRICE_ORDER + " INT)";
 
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS "
                     + ItemEntry.TABLE_NAME;
 
-    private static final String SQL_DELETE_ENTRIES_USER =
+    private static final String SQL_DELETE_ENTRIES_ORDERS =
             "DROP TABLE IF EXISTS "
-                    + ItemEntry.TABLE_NAME1;
+                    + ItemEntry.TABLE_NAME2;
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(SQL_CREATE_ENTRIES);
-        sqLiteDatabase.execSQL(SQL_CREATE_ENTRIES_USER);
+        //sqLiteDatabase.execSQL(SQL_CREATE_ENTRIES_USER);
         sqLiteDatabase.execSQL(SQL_CREATE_ENTRIES_ORDERS);
 
     }
@@ -107,27 +114,30 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL(SQL_DELETE_ENTRIES);
-        sqLiteDatabase.execSQL(SQL_CREATE_ENTRIES_USER);
+        sqLiteDatabase.execSQL(SQL_DELETE_ENTRIES_ORDERS);
         onCreate(sqLiteDatabase);
     }
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         super.onDowngrade(db, oldVersion, newVersion);
     }
+    @SuppressLint("Range")
     public List readOrder(String columnName){
         SQLiteDatabase db_read = getReadableDatabase();
+
+
 
         String[] projection = {
                 BaseColumns._ID,
                 ItemEntry.COLUMN_NAME_PHONE_ORDER,
                 ItemEntry.COLUMN_NAME_AIRPODS_ORDER,
                 ItemEntry.COLUMN_NAME_WATCH_ORDER,
-                ItemEntry.COLUMN_NAME_PRICE_ORDER,
+                ItemEntry.COLUMN_NAME_PRICE_ORDER
 
         };
 
         String sortOrder =
-                ItemEntry.COLUMN_NAME_PHONE_ORDER + " DESC";
+                ItemEntry._ID + " DESC";
 
         Cursor cursor = db_read.query(
                 ItemEntry.TABLE_NAME2,
@@ -138,9 +148,22 @@ public class DbHelper extends SQLiteOpenHelper {
                 null,
                 sortOrder
         );
-
         List result = new ArrayList<>();
-        while(cursor.moveToNext()){
+        cursor.moveToFirst();
+        while (cursor.moveToNext()){
+            String column = cursor.getString(cursor.getColumnIndex(columnName));
+            Log.v("CURSOR",column);
+            result.add(column);
+        }
+        /*do {
+            for (int i = 0; i < cursor.getColumnCount(); i++) {
+
+                    Log.e("CURSOR", "" + cursor.getString(i));
+                }
+            }while (cursor.moveToNext());*/
+
+
+        /*while(cursor.moveToNext()){
             if(columnName == BaseColumns._ID){
                 long item = cursor.getLong(
                         cursor.getColumnIndexOrThrow(ItemEntry._ID)
@@ -163,8 +186,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 result.add(item);
             }
         }
-        cursor.close();
-        Log.v("TAG","--------------------------------"+result);
+        */cursor.close();
+        Log.v("TAG_ORDER","--------------------------------"+result);
         return result;
     }
     public List readData(String columnName){

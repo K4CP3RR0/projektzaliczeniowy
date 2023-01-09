@@ -67,8 +67,9 @@ public class MainActivity extends AppCompatActivity {
         //listView.setBackgroundColor(R.color.F4F4F4);
         dbHelper = new DbHelper(getApplicationContext());
         db_write = dbHelper.getWritableDatabase();
-        try{
 
+        try{
+//            dbHelper.onCreate(db);
         } catch (SQLiteException e){
             if (e.getMessage().contains("no such table")){
                 Log.e(TAG, "Creating table " + DbHelper.ItemEntry.TABLE_NAME + "because it doesn't exist!" );
@@ -90,17 +91,23 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
-            if (e.getMessage().contains("no such table")){
-                Log.e(TAG, "Creating table " + DbHelper.ItemEntry.TABLE_NAME2 + "because it doesn't exist!" );
-                db_write.execSQL("CREATE TABLE "
-                        + DbHelper.ItemEntry.TABLE_NAME2 + " ("
-                        + DbHelper.ItemEntry._ID + "INTEGER PRIMARY KEY, "
-                        + DbHelper.ItemEntry.COLUMN_NAME_PHONE_ORDER  + "TEXT, "
-                        + DbHelper.ItemEntry.COLUMN_NAME_AIRPODS_ORDER + "TEXT, "
-                        + DbHelper.ItemEntry.COLUMN_NAME_WATCH_ORDER + "TEXT, "
-                        + DbHelper.ItemEntry.COLUMN_NAME_PRICE_ORDER + "INT )");
 
-            }
+        }
+        try {
+
+        }catch (SQLiteException e){
+                if (e.getMessage().contains("no such table")){
+                    Log.e(TAG, "Creating table " + DbHelper.ItemEntry.TABLE_NAME2 + "because it doesn't exist!" );
+                    db_write.execSQL("CREATE TABLE "
+                            + DbHelper.ItemEntry.TABLE_NAME2 + " ("
+                            + DbHelper.ItemEntry._ID + "INTEGER PRIMARY KEY,"
+                            + DbHelper.ItemEntry.COLUMN_NAME_PHONE_ORDER  + " TEXT,"
+                            + DbHelper.ItemEntry.COLUMN_NAME_AIRPODS_ORDER + " TEXT,"
+                            + DbHelper.ItemEntry.COLUMN_NAME_WATCH_ORDER + " TEXT,"
+                            + DbHelper.ItemEntry.COLUMN_NAME_PRICE_ORDER + "INT)");
+
+                }
+
         }
 
         ContentValues values1 = new ContentValues();
@@ -243,7 +250,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
       switch (item.getItemId()){
           case R.id.order_list:
-              orderList();
+              Intent intentOrders = new Intent(this, Orders.class);
+              startActivity(intentOrders);
               break;
          /* case R.id.send_message:
              Intent intentSMS = new Intent(this, SendMessage.class);

@@ -47,10 +47,11 @@ public class BuyPage extends AppCompatActivity implements AdapterView.OnItemSele
     RelativeLayout activityBuy;
     SendEmail sendEmail;
     SendMessage sendMessage = new SendMessage();
-    String destinationAddress, orderInfo, watches;
+    String destinationAddress, orderInfo, watches, airpodsImage,watchImage;
     TextInputEditText inputEmailBuy, inputNumberBuy;
     Button smsButton, addOrder;
     Boolean watchPreferences, airpodsPreferences;
+    ContentValues contentValues;
     int airpodsPrice = 0;
     int watchPrice = 0;
     int phonePrice, price, whatItem;
@@ -126,6 +127,7 @@ public class BuyPage extends AppCompatActivity implements AdapterView.OnItemSele
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                             airpodsSelected.setText(String.valueOf(titles.get(i)) + " " + Integer.parseInt(String.valueOf(prices.get(i))));
+                            airpodsImage = String.valueOf(images.get(i));
                             airpodsPrice = Integer.parseInt(String.valueOf(prices.get(i)));
                         }
 
@@ -152,6 +154,7 @@ public class BuyPage extends AppCompatActivity implements AdapterView.OnItemSele
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                             watchSelected.setText(String.valueOf(titlesWatches.get(i)) + " " + Integer.parseInt(String.valueOf(pricesWatches.get(i))));
                             watchPrice = Integer.parseInt(String.valueOf(pricesWatches.get(i)));
+                            watchImage = String.valueOf(imagesWatches.get(i));
                         }
 
                         @Override
@@ -166,7 +169,7 @@ public class BuyPage extends AppCompatActivity implements AdapterView.OnItemSele
 
             }
         });
-
+        contentValues = new ContentValues();
 
         priceOrderr = findViewById(R.id.priceOrderr);
         Button checkPrice = findViewById(R.id.checkPrice);
@@ -204,7 +207,7 @@ public class BuyPage extends AppCompatActivity implements AdapterView.OnItemSele
                         + productName.getText().toString() + " " + productPrice.getText().toString()
                         + "\n " + airpodsSelected.getText().toString()
                         + "\n " + watchSelected.getText().toString()
-                        + "\n Cena/Price : " + price + "zł";*/
+                        + "\n Cena/Price : " + price + "zł";*/ContentValues contentValues = new ContentValues();
                 orderInfo = "Zamówienie:"  + productName.getText().toString() + " "
                         + productPrice.getText().toString() + ", "
                         + airpodsSelected.getText().toString() + ", "
@@ -221,18 +224,34 @@ public class BuyPage extends AppCompatActivity implements AdapterView.OnItemSele
             }
         });
 
+
         addOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ContentValues contentValues = new ContentValues();
-                contentValues.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE_ORDER,productPrice.getText().toString());
+                contentValues.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE_ORDER,productName.getText().toString());
                 contentValues.put(DbHelper.ItemEntry.COLUMN_NAME_AIRPODS_ORDER,airpodsSelected.getText().toString());
                 contentValues.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH_ORDER,watchSelected.getText().toString());
                 contentValues.put(DbHelper.ItemEntry.COLUMN_NAME_PRICE_ORDER,price);
-                //long newRowId = db_write.insert(DbHelper.ItemEntry.TABLE_NAME2, null, contentValues);
+                //contentValues.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE_PHOTO,String.valueOf(getIntent().getIntExtra("productImage",1)));
+                Log.v("TAG_ORDER",productName.getText().toString());
+                Log.v("TAG_ORDER",String.valueOf(productName.getText().toString()));
+
+                long newRowId = db_write.insert(DbHelper.ItemEntry.TABLE_NAME2, null, contentValues);
+                /*db_write.execSQL("INSERT INTO orders("
+                        + DbHelper.ItemEntry.COLUMN_NAME_PHONE_ORDER + ","
+                        + DbHelper.ItemEntry.COLUMN_NAME_AIRPODS_ORDER + ","
+                        + DbHelper.ItemEntry.COLUMN_NAME_WATCH_ORDER + ","
+                        + DbHelper.ItemEntry.COLUMN_NAME_PRICE_ORDER + ")"
+                        + " VALUES (" + "'"+ productName.getText().toString()
+                         + "', '" + airpodsSelected.getText().toString() + "', '" + watchSelected.getText().toString() + "', '" + price + "');");*/
+               // priceOrderr.setText(String.valueOf(dbHelper.readOrder("phone_order")));
             }
         });
-        //Log.v("ORDER", String.valueOf(dbHelper.readOrder("phone_order")));
+        Log.v("ORDER",String.valueOf(dbHelper.readOrder("_id")));
+        Log.v("ORDER", String.valueOf(dbHelper.readOrder("phone_order")));
+        Log.v("ORDER", String.valueOf(dbHelper.readOrder("airpods_order")));
+        Log.v("ORDER", String.valueOf(dbHelper.readOrder("watch_order")));
+        Log.v("ORDER", String.valueOf(dbHelper.readOrder("price_order")));
 
 
 
