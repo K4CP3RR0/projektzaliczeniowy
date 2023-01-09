@@ -228,7 +228,7 @@ public class BuyPage extends AppCompatActivity implements AdapterView.OnItemSele
         addOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                contentValues.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE_ORDER,productName.getText().toString());
+                /*contentValues.put(DbHelper.ItemEntry.COLUMN_NAME_PHONE_ORDER,productName.getText().toString());
                 contentValues.put(DbHelper.ItemEntry.COLUMN_NAME_AIRPODS_ORDER,airpodsSelected.getText().toString());
                 contentValues.put(DbHelper.ItemEntry.COLUMN_NAME_WATCH_ORDER,watchSelected.getText().toString());
                 contentValues.put(DbHelper.ItemEntry.COLUMN_NAME_PRICE_ORDER,price);
@@ -236,14 +236,14 @@ public class BuyPage extends AppCompatActivity implements AdapterView.OnItemSele
                 Log.v("TAG_ORDER",productName.getText().toString());
                 Log.v("TAG_ORDER",String.valueOf(productName.getText().toString()));
 
-                long newRowId = db_write.insert(DbHelper.ItemEntry.TABLE_NAME2, null, contentValues);
-                /*db_write.execSQL("INSERT INTO orders("
+                long newRowId = db_write.insert(DbHelper.ItemEntry.TABLE_NAME2, null, contentValues);*/
+                db_write.execSQL("INSERT INTO orders("
                         + DbHelper.ItemEntry.COLUMN_NAME_PHONE_ORDER + ","
                         + DbHelper.ItemEntry.COLUMN_NAME_AIRPODS_ORDER + ","
                         + DbHelper.ItemEntry.COLUMN_NAME_WATCH_ORDER + ","
                         + DbHelper.ItemEntry.COLUMN_NAME_PRICE_ORDER + ")"
                         + " VALUES (" + "'"+ productName.getText().toString()
-                         + "', '" + airpodsSelected.getText().toString() + "', '" + watchSelected.getText().toString() + "', '" + price + "');");*/
+                         + "', '" + airpodsSelected.getText().toString() + "', '" + watchSelected.getText().toString() + "', '" + price + "');");
                // priceOrderr.setText(String.valueOf(dbHelper.readOrder("phone_order")));
             }
         });
